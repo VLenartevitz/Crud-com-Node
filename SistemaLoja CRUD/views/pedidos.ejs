@@ -1,0 +1,55 @@
+<%- include ('partials/header.ejs') %>
+<%- include ('partials/navbar.ejs') %>
+
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h1>Cadastrar Pedidos</h1>
+            <hr>
+            <form method="POST" action="createPedidos">
+                <label>Numero do Pedido:</label>
+                <input type="text" name="name" id="numero" placeholder="Insira o numero do pedido" class="form-control">
+                                
+                <label>Valor do Pedido:</label>
+                <input type="text" name="valor" id="cpf" placeholder="Insira valor do pedido" class="form-control cpf">
+                
+                <br>
+                <button class="btn btn-success">Cadastrar</button>
+            </form>
+            <hr>
+        </div>
+    </div>
+</div>
+<br>
+
+<div class="container">
+<div class="card">
+<div class="card-header">
+<h1>Pedidos</h1>
+</div>
+<div class="card-body">
+<table>
+    <thead>
+        <tr>
+            <th>Numero:</th>
+            <th>Valor:</th>
+            <th colspan="2" style="text-align: center;">Ações:</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% pedidos.forEach(pedidos => { %>
+         <tr>
+            
+            <td><%= pedidos.numero %></td>
+            <td><%= pedidos.valor %></td>
+            <td><a href="/deletePedido/<%= pedidos._id %>"><img src="/imgs/delete.png" alt="Apagar"></a></td>
+            <td><a href="/findPedido/<%= pedidos._id %>"><img src="/imgs/edit.png" alt="Editar"></a></td>
+        </tr>
+        <% }) %>
+    </tbody>
+</table>
+</div>
+</div>
+</div>
+<%- include ('partials/footer.ejs') %>
