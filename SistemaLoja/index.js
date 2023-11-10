@@ -3,7 +3,10 @@ import mongoose from 'mongoose' //Importando o Mongoose
 //import ClientService from './services/ClientService.js' //Importando o service de cliente
 import bodyParser from 'body-parser' //Importando a biblioteca body-parser
 import ClientService from './services/ClientService.js'
-import PedidosService from './services/PedidosService.js'
+import pedidos from './models/Pedidos.js'
+import PedidoService from './services/PedidoService.js'
+import ProdutoService from './services/ProdutoService.js'
+import produtos from './models/Produto.js'
 const app = express() //Iniciando o Express
 
 app.use(bodyParser.urlencoded({extended: false})) // Decodifica os dados recebidos
@@ -33,15 +36,6 @@ app.get("/clientes", (req,res) => {
     })
 })
 
-// ROTA PEDIDOS
-app.get("/pedidos", (req,res) => {
-    PedidosService.GetAll().then(pedidos => {
-        res.render("clientes", {
-            pedidos:pedidos        
-        })
-    })
-})
-
 // ROTA DE CRIAÇÃO DE CLIENTES
 app.post("/createClient", (req, res) => {
     ClientService.Create(
@@ -52,22 +46,7 @@ app.post("/createClient", (req, res) => {
     res.redirect("/clientes")
 })
 
-app.post("/createPedidos", (req, res) => {
-    PedidosService.Create(
-        req.body.numero,
-        req.body.valor,
-    )
-    res.redirect("/pedidos")
-})
-
-
 // ROTA DE EXCLUSÃO DE CLIENTE
-app.get("/deletePedido/:id", (req, res) => {
-    const id = req.params.id
-    PedidosService.Delete(id)
-    res.redirect("/pedidos")  
-})
-
 app.get("/deleteClient/:id", (req, res) => {
     const id = req.params.id
     ClientService.Delete(id)
@@ -84,15 +63,6 @@ app.get("/findClient/:id", (req, res) => {
     })
 })
 
-app.get("/findPedido/:id", (req, res) => {
-    const id = req.params.id
-    PedidosService.GetOne(id).then(pedidos => {
-        res.render("dadospedidos", {
-            pedidos: pedidos
-        })
-    })
-})
-
 // ROTA DE ALTERAÇÃO DE CLIENTE
 app.post("/updateClient/:id", (req, res) => {
         ClientService.Update(
@@ -104,37 +74,22 @@ app.post("/updateClient/:id", (req, res) => {
         res.redirect("/clientes")
 })
 
-app.post("/updatePedido/:id", (req, res) => {
-    PedidosService.Update(
-        req.body.id,
-        req.body.numero,
-        req.body.valor,
-        
-    )
-    res.redirect("/pedidos")
-})
-
-
-
 // ROTA PRODUTOS
-app.get("/produtos",function(req,res){
-    const produtos = [
-        
-    ]
-    res.render("produtos", {
-        produtos: produtos
+app.get("/produtos", (req,res) => {
+    ProdutoService.GetAll().then(produtos => {
+        res.render("produtos", {
+            produtos: produtos        
+        })
     })
-
 })
 
-app.post("/updatePedido/:id", (req, res) => {
-    PedidosService.Update(
-        req.body.id,
-        req.body.numero,
-        req.body.valor,
-        
-    )
-    res.redirect("/pedidos")
+// ROTA PEDIDOS
+app.get("/pedidos", (req,res) => {
+    PedidoService.GetAll().then(pedidos => {
+        res.render("pedidos", {
+            pedidos: pedidos        
+        })
+    })
 })
 
 

@@ -1,41 +1,40 @@
-import client from "../models/Clients.js"
+import pedidos from "../models/Pedidos.js"
+import pedidos from "../models/Pedidos.js"
 import mongoose from "mongoose"
 
-const Client = mongoose.model("Client", client)
+const Pedidos = mongoose.model("Pedidos", pedidos)
 
-class ClientService {
-    Create(name, cpf, address) {
-        const newClient = new Client({
-            name: name,
-            cpf: cpf,
-            address: address
+class PedidoService {
+    Create(numero,valor) {
+        const newPedido = new Pedidos({
+            numero: String,
+            valor: String
         })
-        newClient.save()
+        newPedido.save()
     }
     
     GetAll() {
-        const clients = Client.find()
-        return clients
+        const pedidos = pedidos.find()
+        return pedidos
     }
 
     GetOne(id) {
-        const client = Client.findOne({_id: id})
+        const client = pedidos.findOne({_id: id})
         return client
     }
 
     Delete(id) {
-        Client.findByIdAndDelete(id).then(() => {
+        pedidos.findByIdAndDelete(id).then(() => {
             console.log(`Cliente com a id: ${id} foi deletado.`)
         }).catch(err => {
             console.log(err)
         })
     }
 
-    Update(id, name, cpf, address) {
-        Client.findByIdAndUpdate(id, {
-            name: name,
-            cpf: cpf,
-            address: address
+    Update(id, numero, valor) {
+        pedidos.findByIdAndUpdate(id, {
+            numero: String,
+            valor: String
         }).then(() => {
             console.log(`Dados do cliente com id: ${id} alterados com sucesso.`)
         }).catch(err => {
@@ -44,7 +43,7 @@ class ClientService {
     }
 }
 
-export default new ClientService()
+export default new PedidoService()
 
 
 /* async Create(name, cpf, adress) {
@@ -63,13 +62,13 @@ export default new ClientService()
 }
 
 async GetAll() {
-    const clients = await Client.find()
-    return clients
+    const pedidos = await Client.find()
+    return pedidos
 }
 
 
 async FindAll() {
-    const clients = await Client.find()
-    return clients
+    const pedidos = await Client.find()
+    return pedidos
 } 
 */
